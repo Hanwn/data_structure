@@ -60,12 +60,17 @@ bool MinHeap::remove(int val){
 
 /*
 总结一下最小堆的删除操作
+1.要注意，这里的begin实际上就相当于在filterup中的index；
+2.从上往下，势必有两个比较对象，对于最小堆而言，只要将较小的那个值与父节点进行比较即可；
+3.更新父节点，同时更新父节点指针、孩子指针；
+4.最后用原数据覆盖begin位置的数据
 */
 
 void MinHeap::filterdown(int begin,int end){
-	int childIndex = begin * 2 + 1;
+	// int childIndex = begin * 2 + 1;
 	int val = heap[begin];
-	while(begin<=end){
+	while(begin < end){
+		int childIndex = begin * 2 + 1;
 		if(childIndex < end && heap[childIndex] > heap[childIndex]){
 			childIndex++;
 		}
@@ -74,14 +79,17 @@ void MinHeap::filterdown(int begin,int end){
 		}else{
 			heap[begin] = heap[childIndex];
 			begin = childIndex;
-			childIndex = childIndex * 2 + 1;
+			// childIndex = childIndex * 2 + 1;
 		}
 	}
 	heap[begin] = val;
 }
 
 /*
-总结一下最小堆的插入操作
+总结一下最小堆的插入操作：
+1.每次插入的值都在最后一个位置，所以首先要将最后一个节点的值保存起来；
+2.对于每次一个节点的父节点，如果比它小，则不需要进行，已经满足了最小堆的条件
+3.如果比它大，则要用父节点的值覆盖子节点的值（子节点的值已经被保护起来了），父节点的位置给子节点，到上一个层级比较
 
 */
 
