@@ -12,6 +12,7 @@ public:
 	bool remove(int val);
 	void print();
 	int getMin();
+	bool create(int arr[],int size);
 private:
 	void filterup(int index);
 	void filterdown(int begin,int end);
@@ -28,6 +29,16 @@ MinHeap::MinHeap(int val){
 }
 MinHeap::~MinHeap(){
 	delete[] heap;
+}
+
+bool MinHeap::create(int arr[],int size){
+	if(capacity<size){
+		return false;
+	}
+	for(int i = 0; i < size; i++){
+		insert(arr[i]);
+	}
+	return true;
 }
 
 bool MinHeap::insert(int val){
