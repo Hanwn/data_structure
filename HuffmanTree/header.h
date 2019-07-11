@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MinHeap.h"
+#include "HuffmanNode.h"
 
 using namespace std;
 
@@ -28,7 +29,7 @@ Huffman::~Huffman(){
 }
 
 void Huffman::create(int a[],int size){
-	Node* left,*right,*parent;
+	Node* left = nullptr,*right = nullptr,*parent = nullptr;
 	MinHeap* heap = new MinHeap();
 	heap->create(a,size);
 	// 这里需要注意的是：遍历的末尾是size-1，因为需要size - 1取出，即构建的huffman树有size-1个非叶节点

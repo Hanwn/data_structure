@@ -7,7 +7,7 @@
 class MinHeap
 {
 public:
-	MinHeap(){};
+	MinHeap():heap(nullptr),capacity(0),size(0){};
 	~MinHeap();
 public:
 	void create(int arr[],int size);
@@ -44,7 +44,8 @@ Node* MinHeap::get_min(){
 	if(!size){
 		return nullptr;
 	}
-	Node* node = &heap[0];
+	Node* node = new Node();
+	*node = heap[0];
 	swap(0,size-1);
 	filterDown(0,size-2);
 	size--;
@@ -59,16 +60,17 @@ void MinHeap::swap(int i,int j){
 
 void MinHeap::filterDown(int begin,int end){
 	Node val = heap[begin];
-	while(begin<=end){
-		int child = 2 * begin + 1;
+	int child = 2 * begin + 1;
+	while(child <= end){
 		if(child < end&&heap[child].data > heap[child + 1].data){
 			child++;
 		}
 		if(heap[child].data >= val.data){
 			break;
 		}else{
-			heap[child] = heap[begin];
+			heap[begin] = heap[child];
 			begin = child;
+			child = 2 * child + 1;
 		}
 	}
 	heap[begin] = val;
@@ -78,7 +80,7 @@ void MinHeap::filterUp(int index){
 	Node val = heap[index];
 	while(index){
 		int parentIndex = (index-1)/2;
-		if(heap[parentIndex].data>=val.data){
+		if(heap[parentIndex].data <= val.data){
 			break;
 		}else{
 			heap[index] = heap[parentIndex];
