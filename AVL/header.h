@@ -55,7 +55,11 @@ void AVLTree::insert(int val){
 }
 
 /*
-AVLTree插入操作与BSTree的不同：
+AVLTree插入操作与BSTree的不同.
+插入操作总结
+1.首先找到要插入的位置
+2.对插入的左右子树进行更新
+3.如果出现了不平衡的情况，再判明到底是在哪个分支上插入的操作（通过值的大小进行判断）
 */
 
 Node* AVLTree::insert(Node* p,int val){
@@ -88,6 +92,20 @@ Node* AVLTree::insert(Node* p,int val){
 void AVLTree::remove(int val){
 	remove(root,val);
 }
+
+/*
+删除操作总结：
+1.找到删除节点；
+2.判断该节点是否有左右子节点；
+3.如果有左右子节点，从高的那一方取元素覆盖本节点，
+4.如果左右节点不是同时存在，那么只需要把本本节点删除，返回有它的子树（也可以没有）；
+
+如何找到删除节点：
+1.判断要删的值与当前节点值的关系；
+2.如果大，进入右子树，删除返回，此时检查该节点，是否平衡，如果没有达到平衡，检查右子树的左子树和右子树的高度，并进行rl或者rr操作
+3.如果小，进入左子树，删除返回，此时检查该节点，是否平衡，如果没有达到平衡，检查左子树的左子树和右子树的高度，并进行lr或者ll操作
+*/
+
 Node* AVLTree::remove(Node* p,int val){
 	if (p){
 		if(val == p->data){
@@ -108,7 +126,7 @@ Node* AVLTree::remove(Node* p,int val){
 				Node* pdel = p;
 				if(p->lchild){
 					p = p->lchild;
-				}else if (p->rchild){
+				}else{
 					p = p->rchild;
 				}
 				delete pdel;
