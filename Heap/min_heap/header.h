@@ -78,10 +78,10 @@ bool MinHeap::remove(int val){
 */
 
 void MinHeap::filterdown(int begin,int end){
-	// int childIndex = begin * 2 + 1;
+	int childIndex = begin * 2 + 1;
 	int val = heap[begin];
-	while(begin < end){
-		int childIndex = begin * 2 + 1;
+	while(child <= end){
+		//int childIndex = begin * 2 + 1;
 		if(childIndex < end && heap[childIndex] > heap[childIndex]){
 			childIndex++;
 		}
@@ -90,7 +90,7 @@ void MinHeap::filterdown(int begin,int end){
 		}else{
 			heap[begin] = heap[childIndex];
 			begin = childIndex;
-			// childIndex = childIndex * 2 + 1;
+			childIndex = childIndex * 2 + 1;
 		}
 	}
 	heap[begin] = val;
