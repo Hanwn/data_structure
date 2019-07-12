@@ -44,6 +44,7 @@ Node* MinHeap::get_min(){
 	if(!size){
 		return nullptr;
 	}
+	// 这里一定要先申请一段空间，不然heap[0]是栈中的内容，函数调用结束就释放掉了
 	Node* node = new Node();
 	*node = heap[0];
 	swap(0,size-1);
