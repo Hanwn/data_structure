@@ -70,7 +70,7 @@ LinkUDG::LinkUDG(){
 		if(vexs[p2].firstEdge == nullptr){
 			vexs[p2].firstEdge = node;
 		}else{
-			linkLast(vexs[p2],node);
+			linkLast(vexs[p2].firstEdge,node);
 		}
 	}
 }
