@@ -139,8 +139,8 @@ void Udg_link::bfs() {
 		}
 
 		while (head != rear) {
-			head++;
-			p = vnode[i].first_child;
+			int j = queue[head++];
+			p = vnode[j].first_child;
 			while (p) {
 				int k = p->index;
 				if (!visited[k]) {

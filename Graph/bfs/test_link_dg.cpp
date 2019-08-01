@@ -13,9 +13,9 @@ int main(){
         {'F', 'G'}};
     int vlen = sizeof(vexs)/sizeof(vexs[0]);
     int elen = sizeof(edges)/sizeof(edges[0]);
-    Graph* d = new Graph(vexs,vlen,edges,elen);
+    Dg_link* d = new Dg_link(vexs,vlen,edges,elen);
     d->print();
     cout<<endl;
-    d->dfs();
+    d->bfs();
 	return 0;
 }

@@ -17,13 +17,13 @@ struct ENode{
 struct VNode{
 	char data;
 	ENode* first_child;
-	VNode():first_child(nullptr);
+	VNode():first_child(nullptr){};
 };
 
 class Dg_link{
 public:
 	Dg_link(){};
-	Dg_link(char v[],int v_size;char e[][2],int e_size);
+	Dg_link(char v[],int v_size,char e[][2],int e_size);
 	~Dg_link();
 public:
 	void print();
@@ -113,8 +113,38 @@ char Dg_link::get_char() {
 	return ch;
 }
 
-void bfs() {
-	
+void Dg_link::bfs() {
+	int head = 0;
+	int rear = 0;
+	int visited[MAX];
+	int queue[MAX];
+	ENode* p = nullptr;
+
+	for (int i = 0; i < vlen; i++) {
+		visited[i] = 0;
+	}
+	for (int i = 0; i < vlen; i++) {
+		if (!visited[i]) {
+			visited[i] = 1;
+			cout<<vnode[i].data<<" ";
+			queue[rear++] = i;
+		}
+
+		while (head != rear) {
+			int j = queue[head++];
+			p = vnode[j].first_child;
+			while (p) {
+				int k = p->index;
+				if (!visited[k]) {
+					visited[k] = 1;
+					cout<<vnode[k].data<<" ";
+					queue[rear++] = k;
+				}
+				p = p->next;
+			}
+		}
+	}
+	cout<<endl;
 }
 
 
