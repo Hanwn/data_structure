@@ -22,11 +22,11 @@ public:
 	~SegmentTree();
 public:
 	TreeNode* build(vector<int>& v,int s,int e);
-	void update(int i,int val);
+	void update(int pos,int val);
 	void print();
 	int sumRange(int s,int e);
 private:
-	void update(TreeNode* p,int i,int val);
+	void update(TreeNode* p,int pos,int val);
 	void del(TreeNode* p);
 	void print(TreeNode* p);
 	int sumRange(TreeNode* p,int s,int e);
@@ -69,19 +69,19 @@ void SegmentTree::del(TreeNode* p) {
 	}
 }
 
-void SegmentTree::update(int i,int val) {
-	update(root,i,val);
+void SegmentTree::update(int pos,int val) {
+	update(root,pos,val);
 }
 
-void SegmentTree::update(TreeNode* p,int i,int val) {
+void SegmentTree::update(TreeNode* p,int pos,int val) {
 	if (p->start == p->end) {
 		p->sum = val;
 	} else {
 		int mid = p->start + (p->end - p->start)/2;
-		if (i <= mid) {
-			update(p->left,i,val);
+		if (pos <= mid) {
+			update(p->left,pos,val);
 		} else {
-			update(p->right,i,val);
+			update(p->right,pos,val);
 		}
 		p->sum = p->left->sum + p->right->sum;
 	}
