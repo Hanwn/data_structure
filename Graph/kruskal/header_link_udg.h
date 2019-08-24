@@ -6,9 +6,23 @@ using namespace std;
 
 #ifndef _HEADWER_H_
 #define _HEADWER_H_
+
+struct EData{
+	char start;
+	char end;
+	int weight;
+	EData(){};
+	EData(char s,char e,int w) {
+		start = s;
+		end = e;
+		weight = w;
+	}
+};
+
 struct ENode{
-	ENode(int val):index(val),next(nullptr){};
+	ENode(int val,int data):index(val),weight(data),next(nullptr){};
 	int index;
+	int weight;
 	ENode* next;
 };
 
@@ -21,7 +35,7 @@ struct VNode{
 
 class Kruskal{
 public:
-	Kruskal(char v[],int v_size,char e[][2],int e_size);
+	Kruskal(char v[],int v_size,EData *e[],int e_size);
 	~Kruskal();
 public:
 	void print();
@@ -29,34 +43,39 @@ public:
 	void link_last(ENode* start,ENode* end);
 	int get_position(char c);
 	void kruskal();
+	EData* get_edges();
+	void sort_edges(EData* edges);
+	int get_end(int* vends,int pos);
 private:
 	VNode vnode[MAX];
 	int vlen;
 	int elen;
 };
 
-Kruskal::Kruskal(char v[],int v_size,char e[][2],int e_size) {
+
+Kruskal::Kruskal(char v[],int v_size,EData *e[],int e_size) {
 	vlen = v_size;
 	elen = e_size;
 	for (int i = 0; i < vlen; i++) {
-		vnode[i]->data = v[i];
+		vnode[i].data = v[i];
 	}
 	for (int i = 0; i < elen; i++) {
-		char c1 = elen[i][0];
-		char c2 = elen[i][1];
+		char c1 = e[i]->start;
+		char c2 = e[i]->end;
+		int weight = e[i]->weight;
 		int p1 = get_position(c1);
 		int p2 = get_position(c2);
-		ENode* node = new ENode(p1);
-		if (v[p1]->first_child == nullptr) {
-			v[p1]->first_child = node;
+		ENode* node = new ENode(p2,weight);
+		if (vnode[p1].first_child == nullptr) {
+			vnode[p1].first_child = node;
 		} else {
-			link_last(v[p1]->first_child,node);
+			link_last(vnode[p1].first_child,node);
 		}
-		node = new ENode(p2);
-		if (v[p2]->first_child == nullptr) {
-			v[p2]->first_child = node;
+		node = new ENode(p1,weight);
+		if (vnode[p2].first_child == nullptr) {
+			vnode[p2].first_child = node;
 		} else {
-			link_last(v[p2]->first_child,node);
+			link_last(vnode[p2].first_child,node);
 		}
 		node = nullptr;
 	}
@@ -86,7 +105,7 @@ void Kruskal::print() {
 	}
 }
 
-char Kruskal::get_position(char c) {
+int Kruskal::get_position(char c) {
 	for (int i = 0; i < vlen; i++) {
 		if (c == vnode[i].data) {
 			return i;
@@ -96,11 +115,11 @@ char Kruskal::get_position(char c) {
 }
 
 void Kruskal::link_last(ENode* start,ENode* end) {
-	ENode* p = link;
+	ENode* p = start;
 	while (p->next) {
 		p = p->next;
 	}
-	p->next = node;
+	p->next = end;
 }
 char Kruskal::get_char() {
 	char ch;
@@ -109,8 +128,77 @@ char Kruskal::get_char() {
 	}while(!((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z')));
 	return ch;
 }
-void Kruskal::kruskal() {
 
+
+EData* Kruskal::get_edges() {
+	EData* edges = nullptr;
+	ENode* enode = nullptr;
+	edges = new EData[elen];
+	int index = 0;
+	for (int i = 0; i < vlen; i++) {
+		enode = vnode[i].first_child;
+		while (enode) {
+			if (enode->index > i) {
+				edges[index].start = vnode[i].data;
+				edges[index].end = vnode[enode->index].data;
+				edges[index].weight = enode->weight;
+				index++;
+			}
+			enode = enode->next;
+		}
+	}
+	return edges;
+}
+
+void Kruskal::sort_edges(EData* edges) {
+	for (int i = 0; i < elen; i++) {
+		for (int j = i + 1; j < elen; j++) {
+			if (edges[i].weight > edges[j].weight) {
+				swap(edges[i],edges[j]);
+			}
+		}
+	}
+}
+
+int Kruskal::get_end(int* vends,int pos) {
+	while (vends[pos]) {
+		pos = vends[pos];
+	}
+	return pos;
+}
+
+void Kruskal::kruskal() {
+	EData res[MAX];
+	int index = 0;
+	EData* edges = get_edges();
+	int vends[MAX] = {0};
+
+	sort_edges(edges);
+
+	for (int i = 0; i < elen; i++) {
+		int p1 = get_position(edges[i].start);
+		int p2 = get_position(edges[i].end);
+
+		int m = get_end(vends,p1);
+		int n = get_end(vends,p2);
+
+
+		if (m != n) {
+			vends[m] = n;
+			res[index++] = edges[i];
+		}
+	}
+	delete edges;
+	int len = 0;
+	for (int i = 0; i < index; i++) {
+		len += res[i].weight;
+		cout<<res[i].weight<<endl;
+	}
+	cout<<"Kruskal = "<<len<<":";
+	for (int i = 0; i < index; i++) {
+		cout<<"("<<res[i].start<<","<<res[i].end<<")";
+	}
+	cout<<endl;
 }
 
 
