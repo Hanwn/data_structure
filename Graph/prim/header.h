@@ -41,6 +41,7 @@ public:
 	int get_pos(char c);
 	void prim(int start);
 	int get_weight(int start,int end);
+	void print();
 
 private:
 	VNode vnode[MAX];
@@ -67,7 +68,7 @@ Prim::Prim(char c[],int v_size,EData* e[],int e_size){
 		if (vnode[p1].first_next == nullptr) {
 			vnode[p1].first_next = p;
 		} else {
-			link_last(vnode[i].first_next,p);
+			link_last(vnode[p1].first_next,p);
 		}
 
 		p = new ENode(p1,weight);
@@ -154,7 +155,7 @@ void Prim::prim(int start) {
 		}
 	}
 	int sum = 0;
-	for (int i = 1; i < index; i++) {
+	for (i = 1; i < index; i++) {
 		min = INT_MAX;
 		n = get_pos(prims[i]);
 		for (j = 0; j < i; j++) {
@@ -172,5 +173,16 @@ void Prim::prim(int start) {
 	}
 	cout<<endl;
 }
+void Prim::print() {
+	for (int i = 0; i < vlen; i++) {
+		ENode* p = vnode[i].first_next;
+		while(p) {
+			cout<<p->index<<"("<<vnode[p->index].data<<")";
+			p = p->next;
+		}
+		cout<<endl;
+	}
+}
+
 #define _HEADER_H_
 #endif

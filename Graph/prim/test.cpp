@@ -26,6 +26,7 @@ int main()
     int elen = sizeof(edges)/sizeof(edges[0]);
     Prim* pG = new Prim(vexs, vlen, edges, elen);
     pG->prim(0);   // prim算法生成最小生成树
+    // pG->print();
 
     return 0;
 }
