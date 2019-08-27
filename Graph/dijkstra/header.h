@@ -122,8 +122,8 @@ int Dijkstra::get_weight(int s,int e) {
 	ENode* p = vnode[s].first_child;
 	int min = INT_MAX;
 	while (p) {
-		if (p->weight  == e) {
-			return e;
+		if (p->index == e) {
+			return p->weight;
 		}
 		p = p->next;
 	}
@@ -159,8 +159,7 @@ void Dijkstra::dijkstra(int s) {
 
 		for (j = 0; j < vlen; j++) {
 			temp = get_weight(k,j);
-			temp = (temp == INT_MAX?INT_MAX:(min + temp
-				));
+			temp = (temp == INT_MAX?INT_MAX:(min + temp));
 			if (flag[j] == 0 && temp < dist[j]) {
 				dist[j] = temp;
 				prev[j] = k;
