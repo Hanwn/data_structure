@@ -145,7 +145,7 @@ void Floyd::floyd() {
 	for (k = 0; k < vlen; k++) {
 		for (i = 0; i < vlen; i++) {
 			for (j = 0; j < vlen; j++) {
-				temp = (dist[i][k] == INT_MAX || dist[k][j] == INT_MAX)?INT_MAX:(dist[i][k] + dist[k][j]);
+				temp = (dist[k][i] == INT_MAX || dist[k][j] == INT_MAX)?INT_MAX:(dist[k][i] + dist[k][j]);
 				if (dist[i][j] > temp) {
 					dist[i][j] = temp;
 					path[i][j] = path[i][k];
