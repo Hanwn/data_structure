@@ -13,7 +13,7 @@
 - [x] HuffmanTree
 - [x] Heap
 
-- [ ] RBTree
+- [x] RBTree
 - [x] TrieTree
 - [x] Segment Tree
 
